@@ -21,42 +21,42 @@ images: ['/static/images/twitter-card.png']
 
 ### 例1: 数组的遍历(数组本身就可以遍历)
 ```Javascript
-  function makeIterator(arr) {
-    let nextIndex = 0
-    return {
-      next() {
-        return nextIndex < arr.length ? {
-          value: arr[nextIndex++],
-          down: false
-        } : {
-          value: false,
-          down: true
-        }
+function makeIterator(arr) {
+  let nextIndex = 0
+  return {
+    next() {
+      return nextIndex < arr.length ? {
+        value: arr[nextIndex++],
+        down: false
+      } : {
+        value: false,
+        down: true
       }
     }
   }
-  makeIterator(['a', 'b', 'c'])
-  let it = makeIterator(['a', 'b', 'c'])
-  console.log(it.next());
-  console.log(it.next());
-  console.log(it.next());
-  console.log(it.next());
+}
+makeIterator(['a', 'b', 'c'])
+let it = makeIterator(['a', 'b', 'c'])
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
 ```
 ![code-log](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f75a2345f6ee41de9ee8a3e1d0509153~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.webp)
 从上面的代码可以看出:结构和Generator很像，因为Generator自带了next功能
 
 ### 例2: 遍历不可遍历的对象
 ```Javascript
-  let courses = {
-    allCourse: {
-      frontend:['ES6','Vue','React','小程序'],
-      backend: ['Java','Go','Python','Spring boot'],
-      webapp: ['Android','ios']
-    }
+let courses = {
+  allCourse: {
+    frontend:['ES6','Vue','React','小程序'],
+    backend: ['Java','Go','Python','Spring boot'],
+    webapp: ['Android','ios']
   }
-  for(let item of courses) {
-    console.log(item);
-  }
+}
+for(let item of courses) {
+  console.log(item);
+}
 ```
 ![code-log](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f75a2345f6ee41de9ee8a3e1d0509153~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.webp)
 > 迭代不可迭代实例的尝试无效。 为了可迭代，非数组对象必须具有 [\[Symbol.iterator\]\(\)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator) 方法。

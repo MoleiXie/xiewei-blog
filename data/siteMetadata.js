@@ -7,7 +7,7 @@ const siteMetadata = {
   language: 'zh-cn',
   theme: 'system', // system, dark or lightLatest
   siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
-  siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
+  siteRepo: 'https://github.com/MoleiXie/xiewei-blog',
   siteLogo: '/static/images/dogSun.jpg',
   socialBanner: '/static/images/twitter-card.png',
   mastodon: 'https://mastodon.social/@mastodonuser',

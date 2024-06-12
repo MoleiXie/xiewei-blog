@@ -196,3 +196,28 @@ You can create tables by assembling a list of words and dividing them with hyphe
 ## Strikethrough
 
 Any word wrapped with two tildes (like `~~this~~`) will appear ~~crossed out~~.
+
+## code diff
+```
+  diff-js:siteMetadata.js
+  analytics: {
+  -   umamiAnalytics: {
+  -     // We use an env variable for this site to avoid other users cloning our analytics ID
+  -     umamiWebsiteId: process.env.NEXT_UMAMI_ID, // e.g. 123e4567-e89b-12d3-a456-426614174000
+  -   },
+  +    plausibleAnalytics: {
+  +      plausibleDataDomain: '', // e.g. tailwind-nextjs-starter-blog.vercel.app
+  +    },
+  },
+```
+```diff-js:siteMetadata.js
+analytics: {
+-   umamiAnalytics: {
+-     // We use an env variable for this site to avoid other users cloning our analytics ID
+-     umamiWebsiteId: process.env.NEXT_UMAMI_ID, // e.g. 123e4567-e89b-12d3-a456-426614174000
+-   },
++    plausibleAnalytics: {
++      plausibleDataDomain: '', // e.g. tailwind-nextjs-starter-blog.vercel.app
++    },
+},
+```

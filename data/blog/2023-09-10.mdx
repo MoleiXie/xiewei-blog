@@ -1,6 +1,6 @@
 ---
 title: '弹性盒布局 子元素 flex 属性详解'
-date: '2024-03-08'
+date: '2023-09-10'
 tags: ['css','layout']
 draft: false
 summary: '本文详细介绍 子元素flex代表的含义, 以及其包含的三个属性，并给出对应案例作为实践'
@@ -26,4 +26,21 @@ summary: '本文详细介绍 子元素flex代表的含义, 以及其包含的三
     flex-shrink: 1; // 空间不足时, 进行收缩
     flex-basis: 0%; // 自动填充剩余所有空间
 }
+```
+
+## 示例
+这是一个非常经典的三栏布局，左右200px固定，中间自适应。<br/>
+中间部分即flex：1，空间收缩时会随之收缩，增大时会随之增大。
+
+<div className="flex">
+    <div className="w-[200px] p-4 bg-gray-200">Left Sidebar</div>
+    <div className="flex-auto p-4 bg-gray-400">Main Content</div>
+    <div className="w-[200px] p-4 bg-gray-200">Right Sidebar</div>
+</div>
+```jsx
+<div className="flex">
+    <div className="w-[200px] p-4 bg-gray-200">Left Sidebar</div>
+    <div className="flex-auto p-4 bg-gray-400">Main Content</div>
+    <div className="w-[200px] p-4 bg-gray-200">Right Sidebar</div>
+</div>
 ```

@@ -10,54 +10,95 @@ images: ['/static/images/twitter-card.png']
 
 <TOCInline toc={props.toc} exclude="Introduction" />
 
-## 介绍
+## 背景介绍
+因为ES6开始数据结构新增了`Set`和`Map`，再加上已有的`Array`和`Object`，此外用户还可以自行组合它们来形成组合数据结构，复杂的数据结构导致循环遍历难度加大，为简化和统一循环方式，ES6就给出了迭代器`(Iterator)`这个接口来提供统一访问机制`for..of`。
 
-- 它是一种接口机制，为各种不同的数据结构提供统一的访问机制
-- 让不支持遍历的数据结构“可遍历”，主要供for ... of消费
+## 什么是迭代器？
+迭代器是一个对象，它提供了一种机制，可以顺序访问集合中的每一个元素，而不需要了解集合的内部结构。
+迭代器对象有一个`next()`方法，每次调用会返回集合中的下一个元素。
+这个方法返回一个包含`value`和`done`属性的对象，其中`value`是当前的值，`done`是一个布尔值，表示是否已经遍历完毕。
 
-## 基础使用
-
-它是一种接口，这个接口要求return一个对象，并且这个对象要有next函数，而且next函数需要return一个对象，这个对象要有value属性和down属性
-
-### 例1: 数组的遍历(数组本身就可以遍历)
-```Javascript
-function makeIterator(arr) {
-  let nextIndex = 0
-  return {
-    next() {
-      return nextIndex < arr.length ? {
-        value: arr[nextIndex++],
-        down: false
-      } : {
-        value: false,
-        down: true
-      }
-    }
-  }
+## 代码示例
+```js
+// 自定义一个简单的迭代器, 自定义数组迭代行为
+function createIterator(array) {
+    let index = 0;
+    return {
+        next: function() {
+            return index < array.length ?
+                { value: array[index++], done: false } :
+                { value: undefined, done: true };
+        }
+    };
 }
-makeIterator(['a', 'b', 'c'])
-let it = makeIterator(['a', 'b', 'c'])
-console.log(it.next());
-console.log(it.next());
-console.log(it.next());
-console.log(it.next());
+const myIterator = createIterator([1, 2, 3]);
+
+console.log(myIterator.next()); // { value: 1, done: false }
+console.log(myIterator.next()); // { value: 2, done: false }
+console.log(myIterator.next()); // { value: 3, done: false }
+console.log(myIterator.next()); // { value: undefined, done: true }
 ```
-![code-log](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f75a2345f6ee41de9ee8a3e1d0509153~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.webp)
-从上面的代码可以看出:结构和Generator很像，因为Generator自带了next功能
 
-### 例2: 遍历不可遍历的对象
-```Javascript
-let courses = {
-  allCourse: {
-    frontend:['ES6','Vue','React','小程序'],
-    backend: ['Java','Go','Python','Spring boot'],
-    webapp: ['Android','ios']
-  }
-}
-for(let item of courses) {
-  console.log(item);
+## 应用场景
+
+1. **遍历数组**<br/>
+迭代器最常见的应用场景就是遍历数组。你可以用`for...of`循环来简化操作。
+```javascript
+const array = [1, 2, 3, 4, 5];
+for (const value of array) {
+    console.log(value); // 依次输出 1, 2, 3, 4, 5
 }
 ```
-![code-log](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f75a2345f6ee41de9ee8a3e1d0509153~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.webp)
-> 迭代不可迭代实例的尝试无效。 为了可迭代，非数组对象必须具有 [\[Symbol.iterator\]\(\)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator) 方法。
+
+2. **遍历Map和Set**<br/>
+除了数组，`Map`和`Set`也是ES6引入的新数据结构。它们都自带迭代器，可以直接用`for...of`来遍历。
+```javascript
+const myMap = new Map([
+    ['a', 1],
+    ['b', 2],
+    ['c', 3]
+]);
+
+for (const [key, value] of myMap) {
+    console.log(key, value); // 依次输出 'a' 1, 'b' 2, 'c' 3
+}
+
+const mySet = new Set([1, 2, 3, 4, 5]);
+for (const value of mySet) {
+    console.log(value); // 依次输出 1, 2, 3, 4, 5
+}
+```
+
+3. **字符串遍历**<br/>
+字符串也是可迭代对象，可以用迭代器来遍历每一个字符。
+```javascript
+const str = "Hello";
+for (const char of str) {
+    console.log(char); // 依次输出 'H', 'e', 'l', 'l', 'o'
+}
+```
+
+4. **遍历不可迭代对象**<br/>
+我们可以自定义迭代器，从而使对象具备迭代功能。
+```js
+const obj = { a: 1, b: 2, c: 3 };
+
+// 为对象添加自定义迭代器
+obj[Symbol.iterator] = function() {
+    const entries = Object.entries(this);
+    let index = 0;
+    return {
+        next: function() {
+            return index < entries.length ?
+                { value: entries[index++], done: false } :
+                { value: undefined, done: true };
+        }
+    };
+};
+
+// 使用 for...of 循环遍历对象
+for (const [key, value] of obj) {
+    console.log(key, value); // 依次输出 'a' 1, 'b' 2, 'c' 3
+}
+```
 

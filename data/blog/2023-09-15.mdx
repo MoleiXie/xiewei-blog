@@ -1,0 +1,98 @@
+---
+title: 'ES6 - 生成器Generator'
+date: '2023-09-15'
+lastmod: '2023-09-15'
+tags: ['Javascript', 'ES6']
+draft: false
+summary: 'ES6 新引入了 Generator 函数，可以通过 yield 关键字，把函数的执行流挂起，为改变执行流程提供了可能，从而为异步编程提供解决方案。'
+images: ['/static/images/twitter-card.png']
+---
+
+<TOCInline toc={props.toc} exclude="Introduction" />
+
+## 背景介绍
+
+在JavaScript的江湖中，ES6（ECMAScript 2015）带来了许多新武器，生成器（Generator）就是其中一个。生成器可以让我们在编写异步代码时如鱼得水，游刃有余。俗话说，"工欲善其事，必先利其器"，今天咱们就来聊聊生成器，看看它到底有多神奇。
+
+## 什么是生成器？
+
+生成器是一种特殊的函数，它可以在执行过程中暂停，并在需要时恢复执行。生成器函数通过 `function*` 语法定义，并使用 `yield` 关键字来暂停执行和返回值。生成器函数返回一个生成器对象，这个对象实现了迭代器协议，可以通过调用 `next()` 方法逐步执行。
+
+## 代码示例
+```javascript
+// 定义一个简单的生成器函数
+function* simpleGenerator() {
+    yield 1;
+    yield 2;
+    yield 3;
+}
+
+const generator = simpleGenerator();
+
+console.log(generator.next()); // { value: 1, done: false }
+console.log(generator.next()); // { value: 2, done: false }
+console.log(generator.next()); // { value: 3, done: false }
+console.log(generator.next()); // { value: undefined, done: true }
+```
+在这个例子中，生成器函数 simpleGenerator 依次产出（yield）1、2、3。当我们调用生成器对象的 next() 方法时，它会返回一个包含 value 和 done 属性的对象，其中 value 是当前的值，done 是一个布尔值，表示生成器是否已经完成。
+
+## 应用场景
+
+1. **异步编程**<br/>
+生成器可以让我们更优雅地处理异步操作，避免回调地狱。通过生成器和 Promise 的结合，我们可以实现类似同步代码的异步流程控制。
+```javascript
+function* fetchData() {
+    const user = yield fetch('https://api.example.com/user');
+    const posts = yield fetch(`https://api.example.com/posts?userId=${user.id}`);
+    return posts;
+}
+
+function handleGenerator(generator) {
+    const iterator = generator();
+
+    function handleResult(result) {
+        if (result.done) return result.value;
+        return result.value.then(res => res.json()).then(data => handleResult(iterator.next(data)));
+    }
+
+    return handleResult(iterator.next());
+}
+
+handleGenerator(fetchData).then(posts => console.log(posts));
+```
+2. **无限序列**<br/>
+生成器可以轻松地创建无限序列，比如斐波那契数列。
+```js
+function* fibonacci() {
+    let [prev, curr] = [0, 1];
+    while (true) {
+        yield curr;
+        [prev, curr] = [curr, prev + curr];
+    }
+}
+
+const fib = fibonacci();
+console.log(fib.next().value); // 1
+console.log(fib.next().value); // 1
+console.log(fib.next().value); // 2
+console.log(fib.next().value); // 3
+console.log(fib.next().value); // 5
+```
+
+3. **控制流管理**<br/>
+生成器可以用于更复杂的控制流管理，比如实现状态机。
+```js
+function* stateMachine() {
+    while (true) {
+        yield 'State 1';
+        yield 'State 2';
+        yield 'State 3';
+    }
+}
+
+const states = stateMachine();
+console.log(states.next().value); // 'State 1'
+console.log(states.next().value); // 'State 2'
+console.log(states.next().value); // 'State 3'
+console.log(states.next().value); // 'State 1'
+```

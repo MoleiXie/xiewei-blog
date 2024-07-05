@@ -1,0 +1,239 @@
+---
+title: 'MDX 语法常用指南'
+date: '2023-10-20'
+tags: ['markdown','note','MDX']
+draft: false
+summary: '本文介绍了MDX, 并给出了常用的MDX语法指南, 包括标题、有序/无序列表、表格等'
+---
+
+# MDX介绍
+
+MDX 是 markdown、JSX、Javascript表达式以及ESM中的`export`和`import`语句的集合体<br/>
+可以理解为在markdown中嵌入JSX语法，让组件可以在文档中使用
+
+# markdown 语法基础
+
+## 1. 标题
+```
+# 标题一
+
+## 标题二
+
+#### 标题四
+```
+# This is a h1 tag
+
+## This is a h2 tag
+
+#### This is a h4 tag<br/>
+
+
+## 2. 强调
+```
+_这是斜体文本_
+
+**这是加粗文本**
+
+_斜体 **结合** 加粗文本_
+
+~~这是删除线~~
+```
+_这是斜体文本_
+
+**这是加粗文本**
+
+_斜体 **结合** 加粗文本_
+
+~~这是删除线~~
+
+## 3. 列表
+
+### 无序列表
+
+```
+- Item 1
+- Item 2
+  - Item 2a
+  - Item 2b
+```
+
+- Item 1
+- Item 2
+  - Item 2a
+  - Item 2b
+
+### 有序列表
+
+```
+1. Item 1
+2. Item 2
+3. Item 3
+   1. Item 3a
+   1. Item 3b
+```
+
+1. Item 1
+2. Item 2
+3. Item 3
+   1. Item 3a
+   1. Item 3b
+
+## 3. 图片
+
+```
+语法格式: ![Alt Text](url)
+
+示例：![photos](https://images.pexels.com/photos/2559941/pexels-photo-2559941.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)
+```
+
+![photos](https://images.pexels.com/photos/2559941/pexels-photo-2559941.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)
+
+## 4. 跳转链接
+
+```
+语法格式: [link Text](url)
+
+示例：跳转到 [@GitHub](http://github.com)
+```
+跳转到 [@GitHub](http://github.com)
+
+## 5. 引用块
+
+```
+语法格式：> 引用文字xxxxxx
+
+示例：
+毛主席曾说过:
+> 这个军队具有一往无前的精神，它要压倒一切敌人，而决不被敌人所屈服！
+```
+毛主席曾说过:
+> 这个军队具有一往无前的精神，它要压倒一切敌人，而决不被敌人所屈服！
+
+```
+> [!CAUTION]
+> 这是警告引用
+```
+> [!CAUTION]
+> 这是警告引用
+
+
+## 6. 行内代码
+```
+语法格式：`line code`
+
+示例：我觉得`display: flex`这个属性是非常重要的
+```
+我觉得`display: flex`这个属性是非常重要的
+
+## 7. 代码块
+
+````
+```js:fancyAlert.js
+function fancyAlert(arg) {
+  if (arg) {
+    $.facebox({ div: '#foo' })
+  }
+}
+```
+````
+```js:fancyAlert.js
+function fancyAlert(arg) {
+  if (arg) {
+    $.facebox({ div: '#foo' })
+  }
+}
+```
+
+## 8. 代码对比
+
+````
+```diff-js:fancyAlert.js
+function fancyAlert(arg) {
+-  if (arg) {
+-    $.facebox({ div: '#foo' })
+-  }
++  if (!arg) {
++    $.facebox({ div: '#container' })
++  }
+}
+```
+````
+```diff-js:fancyAlert.js
+function fancyAlert(arg) {
+-  if (arg) {
+-    $.facebox({ div: '#foo' })
+-  }
++  if (!arg) {
++    $.facebox({ div: '#container' })
++  }
+}
+```
+## 9. 脚注
+
+```
+会在文章结尾生成[^1].
+
+[^1]: 脚注1.
+```
+
+会在文章结尾生成[^1].
+
+[^1]: 脚注1.
+
+## 10. 任务列表
+
+```
+- [x] list syntax required (any unordered or ordered list supported)
+- [x] this is a complete item
+- [ ] this is an incomplete item
+```
+
+- [x] list syntax required (any unordered or ordered list supported)
+- [x] this is a complete item
+- [ ] this is an incomplete item
+
+## 11. 表格
+
+```
+| First Header                | Second Header                |
+| --------------------------- | ---------------------------- |
+| Content from cell 1         | Content from cell 2          |
+| Content in the first column | Content in the second column |
+```
+
+| First Header                | Second Header                |
+| --------------------------- | ---------------------------- |
+| Content from cell 1         | Content from cell 2          |
+| Content in the first column | Content in the second column |
+
+# MDX插入JSX混合markdown组件
+```
+<div className="-mx-2 flex flex-wrap overflow-hidden xl:-mx-2">
+  <div className="my-1 w-full overflow-hidden px-2 xl:my-1 xl:w-1/2 xl:px-2">
+    ![Maple](/static/images/canada/maple.jpg)
+  </div>
+  <div className="my-1 w-full overflow-hidden px-2 xl:my-1 xl:w-1/2 xl:px-2">
+    ![Lake](/static/images/canada/lake.jpg)
+  </div>
+  <div className="my-1 w-full overflow-hidden px-2 xl:my-1 xl:w-1/2 xl:px-2">
+    ![Mountains](/static/images/canada/mountains.jpg)
+  </div>
+  <div className="my-1 w-full overflow-hidden px-2 xl:my-1 xl:w-1/2 xl:px-2">
+    ![Toronto](/static/images/canada/toronto.jpg)
+  </div>
+</div>
+```
+<div className="-mx-2 flex flex-wrap overflow-hidden xl:-mx-2">
+  <div className="my-1 w-full overflow-hidden px-2 xl:my-1 xl:w-1/2 xl:px-2">
+    ![Maple](/static/images/canada/maple.jpg)
+  </div>
+  <div className="my-1 w-full overflow-hidden px-2 xl:my-1 xl:w-1/2 xl:px-2">
+    ![Lake](/static/images/canada/lake.jpg)
+  </div>
+  <div className="my-1 w-full overflow-hidden px-2 xl:my-1 xl:w-1/2 xl:px-2">
+    ![Mountains](/static/images/canada/mountains.jpg)
+  </div>
+  <div className="my-1 w-full overflow-hidden px-2 xl:my-1 xl:w-1/2 xl:px-2">
+    ![Toronto](/static/images/canada/toronto.jpg)
+  </div>
+</div>
